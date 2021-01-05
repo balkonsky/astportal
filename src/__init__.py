@@ -2,12 +2,15 @@ from flask import Flask
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
+from flask_migrate import Migrate, MigrateCommand
+from flask_script import Manager
+from flask_security import SQLAlchemySessionUserDatastore, Security
 from ldap3.utils.log import set_library_log_detail_level, PROTOCOL
 
 from .utils import (
     Flog, register_blueprint, jsonify_error,
-    jsonify_jwt_error, set_oracle_client_info)
-
+    jsonify_jwt_error)
+from .models import *
 from .config import DefaultConfig, DefaultLogging
 
 __all__ = ['create_app']
@@ -39,18 +42,27 @@ def create_app(config=DefaultConfig):
     set_library_log_detail_level(PROTOCOL)  # ldap3 loglevel
 
     db.init_app(app)
+    with app.app_context():
+        db.create_all()
+        db.session.commit()
+
     CORS(app, resources=r'/*')
 
     jwt.init_app(app)
     jsonify_jwt_error(jwt)
 
+    migrate = Migrate(app, db)
+    manager = Manager(migrate)
+    manager.add_command('db', MigrateCommand)
+
     for blueprint in app.config['MODULES']:
         with app.app_context():
             register_blueprint(app, blueprint, package='src')
 
-    dialect = app.config['SQLALCHEMY_DATABASE_URI']
-    if not app.debug and dialect.startswith('oracle'):
-        with app.app_context():
-            set_oracle_client_info(db, 'Kitchen')
+    user_datastore = SQLAlchemySessionUserDatastore(db, User, Role)
+    security = Security(app, user_datastore)
+    user_datastore.create_user(username='mavramenko', password='mavramenko')
+    db.session.commit()
+    print(User.query.first())
 
     return app
