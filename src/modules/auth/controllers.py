@@ -15,11 +15,11 @@ blueprint = Blueprint('auth', __name__, template_folder='templates')
 @validation_required(login_schema)
 def login():
     ad = active_directory.AD(
-        host='172.20.2.67',
-        port=389,
-        username='dev-chat-svc',
-        password='4gSn3dhU18',
-        basedn='OU=Accounts,DC=corp,DC=humans,DC=net',
+        host='',
+        port=,
+        username='',
+        password='',
+        basedn='',
         domain='',
         ssl=False,
         timeout=20)
