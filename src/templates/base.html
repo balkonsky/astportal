@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}
+
+        {% endblock %} | OBELIX</title>
+    <!-- CSS FILES -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/uikit@latest/dist/css/uikit.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+<body>
+
+<!--HEADER-->
+<header id="top-head" class="uk-position-fixed">
+    <div class="uk-container uk-container-expand uk-background-primary">
+        <nav class="uk-navbar uk-light" data-uk-navbar="mode:click; duration: 250">
+            <div class="uk-navbar-left">
+                <div class="uk-navbar-item uk-hidden@m">
+                    <a class="uk-logo" href="#"><img class="custom-logo" src="img/dashboard-logo-white.svg" alt=""></a>
+                </div>
+
+            </div>
+            <div class="uk-navbar-right">
+                <ul class="uk-navbar-nav">
+                    <li>
+                        <a href="#" data-uk-icon="icon:user" title="Your profile" data-uk-tooltip></a>
+                        <!-- user dropdown -->
+                        <div class="uk-dropdown user-drop"
+                             data-uk-dropdown="mode: click; pos: bottom-center; animation: uk-animation-slide-bottom-small; duration: 150">
+                            <ul class="uk-nav uk-dropdown-nav uk-text-left">
+                                <li><a href="#"><span data-uk-icon="icon: info"></span> Summary</a></li>
+                                <li><a href="#"><span data-uk-icon="icon: refresh"></span> Edit</a></li>
+                                <li><a href="#"><span data-uk-icon="icon: settings"></span> Configuration</a></li>
+                                <li class="uk-nav-divider"></li>
+                                <li><a href="#"><span data-uk-icon="icon: image"></span> Your Data</a></li>
+                                <li class="uk-nav-divider"></li>
+                                <li><a href="#"><span data-uk-icon="icon: sign-out"></span> Sign Out</a></li>
+                            </ul>
+                        </div>
+                        <!-- /user dropdown -->
+                    </li>
+                    <li><a href="#" data-uk-icon="icon:  sign-out" title="Sign Out" data-uk-tooltip></a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</header>
+<!--/HEADER-->
+<!-- LEFT BAR -->
+<aside id="left-col" class="uk-light uk-visible@m">
+
+    <div class="left-nav-wrap">
+        <div class="uk-text-center">
+            <span class="uk-text-lead">OBELIX</span>
+        </div>
+        <ul class="uk-nav uk-nav-default uk-nav-parent-icon" data-uk-nav>
+            <li class="uk-nav-header">Menu</li>
+            <li class="uk-nav-divider"></li>
+            <li><a href="#"><span class="uk-margin-small-right"></span>Dashboard</a></li>
+            <li><a href="#"><span class="uk-margin-small-right"></span>Agents</a></li>
+            <li class="uk-parent"><a href="#"><span
+                    class="uk-margin-small-right"></span>Routing</a>
+                <ul class="uk-nav-sub">
+                    <li><a title="Article" href="https://zzseba78.github.io/Kick-Off/article.html">Article</a></li>
+                    <li><a title="Album" href="https://zzseba78.github.io/Kick-Off/album.html">Album</a></li>
+                    <li><a title="Cover" href="https://zzseba78.github.io/Kick-Off/cover.html">Cover</a></li>
+                    <li><a title="Cards" href="https://zzseba78.github.io/Kick-Off/cards.html">Cards</a></li>
+                    <li><a title="News Blog" href="https://zzseba78.github.io/Kick-Off/newsBlog.html">News Blog</a></li>
+                    <li><a title="Price" href="https://zzseba78.github.io/Kick-Off/price.html">Price</a></li>
+                    <li><a title="Login" href="https://zzseba78.github.io/Kick-Off/login.html">Login</a></li>
+                    <li><a title="Login-Dark" href="https://zzseba78.github.io/Kick-Off/login-dark.html">Login -
+                        Dark</a></li>
+                </ul>
+            </li>
+        </ul>
+
+    </div>
+</aside>
+<!-- /LEFT BAR -->
+<!-- CONTENT -->
+<div id="content" data-uk-height-viewport="expand: true">
+    {% block content %}
+
+    {% endblock %}
+</div>
+<!-- /CONTENT -->
+
+
+<!-- JS FILES -->
+<script src="https://cdn.jsdelivr.net/npm/uikit@latest/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@latest/dist/js/uikit-icons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+</body>
+</html>

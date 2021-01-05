@@ -1,6 +1,6 @@
 from click import group
 from flask import current_app
-from flask.cli import FlaskGroup, with_appcontext
+from flask.cli import FlaskGroup
 
 from .utils.job import ContextJob
 
@@ -20,17 +20,3 @@ def periodic():
         interval=60,
         job_class=ContextJob,
         connection=current_app.redis).run(burst=False)
-
-
-@cli.command()
-@with_appcontext
-def init():
-    """Create all tables in DB"""
-    db.create_all()
-
-
-@cli.command()
-@with_appcontext
-def drop():
-    """Purge database schema - WARNING!"""
-    db.drop_all()

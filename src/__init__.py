@@ -10,7 +10,6 @@ from ldap3.utils.log import set_library_log_detail_level, PROTOCOL
 from .utils import (
     Flog, register_blueprint, jsonify_error,
     jsonify_jwt_error)
-from .models import *
 from .config import DefaultConfig, DefaultLogging
 
 __all__ = ['create_app']
@@ -43,6 +42,7 @@ def create_app(config=DefaultConfig):
 
     db.init_app(app)
     with app.app_context():
+        from .models import User, Role
         db.create_all()
         db.session.commit()
 
@@ -59,10 +59,10 @@ def create_app(config=DefaultConfig):
         with app.app_context():
             register_blueprint(app, blueprint, package='src')
 
-    user_datastore = SQLAlchemySessionUserDatastore(db, User, Role)
+    user_datastore = SQLAlchemySessionUserDatastore(db.session, User, Role)
     security = Security(app, user_datastore)
-    user_datastore.create_user(username='mavramenko', password='mavramenko')
-    db.session.commit()
-    print(User.query.first())
+    # with app.app_context():
+    #     user_datastore.create_user(id=1, email='mavramenko@humans.net', password='mavramenko')
+    #     db.session.commit()
 
     return app
